@@ -11,9 +11,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ErrorMessage {
 	
-	private String offStatic;
-	
 	private MessageType messageType;
+	
+	private String offStatic;
 	
 	public String prepareErrorMessage() {
 		StringBuilder builder = new StringBuilder();
