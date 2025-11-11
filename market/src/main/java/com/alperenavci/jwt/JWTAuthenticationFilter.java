@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.alperenavci.exception.BaseException;
@@ -19,12 +20,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter{
 	
 	@Autowired
 	private JWTService jwtService;
 	
-	
+	@Autowired
 	private UserDetailsService userDetailsService;
 	
 	@Override
@@ -61,7 +63,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter{
 		catch (Exception e) {
 			throw new BaseException(new ErrorMessage(MessageType.GENERAL_EXCEPTION, e.getMessage()));
 		}
-		
+		filterChain.doFilter(request, response);
 	}
 	
 }
