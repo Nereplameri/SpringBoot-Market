@@ -23,8 +23,8 @@ public class Product extends BaseEntity{
 	@Column(name = "is_presented")
 	private boolean isPresented;
 	
-	@Column(name = "fixed_product_quantity")
-	private Long fixedProductQuantity;
+	@Column(name = "barcode")
+	private String barcode;
 	
 	@Column(name = "remaining_product_quantity")
 	private Long remainingProductQuantity;
