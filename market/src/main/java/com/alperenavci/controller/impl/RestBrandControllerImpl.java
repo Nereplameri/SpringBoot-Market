@@ -25,7 +25,7 @@ import com.alperenavci.utils.RestPageableRequest;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/rest/api")
+@RequestMapping("/rest/api/brand")
 public class RestBrandControllerImpl extends RestBaseController implements IRestBrandController{
 	
 	@Autowired

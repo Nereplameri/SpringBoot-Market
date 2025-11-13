@@ -13,6 +13,9 @@ public enum MessageType {
 	BRAND_NOT_FOUND("4010", "Firma bulunamadı."),
 	BRAND_ID_INVALID("4011", "Firma numarası geçersiz"),
 	BRAND_NAME_ALREADY_EXIST("4012", "Firma ismi daha önce oluşturulmuş."),
+	PRODUCT_NAME_ALREADY_EXIST("4013", "Ürün ismi daha önce oluşturulmuş."),
+	PRODUCT_ID_INVALID("4014", "Ürün ID 'si geçersiz."),
+	PRODUCT_NOT_FOUND("4015", "Ürün bulunamadı"),
 	GENERAL_EXCEPTION("9999", "Genel bir hata oluştu");
 	
 	

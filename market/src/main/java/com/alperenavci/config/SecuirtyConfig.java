@@ -34,7 +34,7 @@ public class SecuirtyConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 		.authorizeHttpRequests(request ->
-		request.requestMatchers(REGISTER, AUTHENTICATE, REFRESH_TOKEN).permitAll()
+		request.requestMatchers(REGISTER, AUTHENTICATE, REFRESH_TOKEN, "/rest/api/product/**").permitAll()
 		.anyRequest().authenticated())
 		.exceptionHandling().authenticationEntryPoint(authEntryPoint).and()
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
