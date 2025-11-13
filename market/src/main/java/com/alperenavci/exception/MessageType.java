@@ -16,6 +16,7 @@ public enum MessageType {
 	PRODUCT_BARCODE_ALREADY_EXIST("4013", "Ürün barkodu daha önce oluşturulmuş."),
 	PRODUCT_ID_INVALID("4014", "Ürün ID 'si geçersiz."),
 	PRODUCT_NOT_FOUND("4015", "Ürün bulunamadı"),
+	FRESH_PRODUCE_NOT_FOUND("4016", "Manav ürün id 'si geçersiz"),
 	GENERAL_EXCEPTION("9999", "Genel bir hata oluştu");
 	
 	
