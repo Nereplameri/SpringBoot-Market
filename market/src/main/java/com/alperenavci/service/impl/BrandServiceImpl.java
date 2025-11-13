@@ -27,6 +27,11 @@ public class BrandServiceImpl implements IBrandService{
 	@Autowired
 	private BrandRepository brandRepository;
 	
+	/**
+	 * 
+	 * @param inputBrand
+	 * @return a new Brand object
+	 */
 	
 	private Brand createBrand(DtoBrandIU inputBrand) {
 		Brand brand = new Brand();
@@ -37,6 +42,16 @@ public class BrandServiceImpl implements IBrandService{
 		return brand;
 	}
 	
+	/**
+	 * 
+	 * @param brand
+	 * @return a new DtoBrand object
+	 */
+	public DtoBrand convertBrandToDto(Brand brand) {
+		DtoBrand dtoBrand = new DtoBrand();
+		BeanUtils.copyProperties(brand, dtoBrand);
+		return dtoBrand;
+	}
 	
 	@Override
 	public DtoBrand saveBrand(DtoBrandIU inputBrand) {
@@ -48,8 +63,7 @@ public class BrandServiceImpl implements IBrandService{
 		
 		Brand brand = brandRepository.save(createBrand(inputBrand));
 		
-		DtoBrand dtoBrand = new DtoBrand();
-		BeanUtils.copyProperties(brand, dtoBrand);
+		DtoBrand dtoBrand = convertBrandToDto(brand);
 		
 		return dtoBrand;
 	}
@@ -63,8 +77,7 @@ public class BrandServiceImpl implements IBrandService{
 		}
 		
 		Brand brand = optBrand.get();
-		DtoBrand dtoBrand = new DtoBrand();
-		BeanUtils.copyProperties(brand, dtoBrand);
+		DtoBrand dtoBrand = convertBrandToDto(brand);
 		
 		return dtoBrand;
 	}
@@ -87,8 +100,7 @@ public class BrandServiceImpl implements IBrandService{
 		
 		Brand brand = getBrandById(id);
 		
-		DtoBrand dtoBrand = new DtoBrand();
-		BeanUtils.copyProperties(brand, dtoBrand);
+		DtoBrand dtoBrand = convertBrandToDto(brand);
 		
 		return dtoBrand;
 	}
@@ -100,8 +112,7 @@ public class BrandServiceImpl implements IBrandService{
 		BeanUtils.copyProperties(inputBrand, brand);
 		brandRepository.save(brand);
 		
-		DtoBrand dtoBrand = new DtoBrand();
-		BeanUtils.copyProperties(brand, dtoBrand);
+		DtoBrand dtoBrand = convertBrandToDto(brand);
 		
 		return dtoBrand;
 	}
@@ -130,12 +141,11 @@ public class BrandServiceImpl implements IBrandService{
 
 
 	@Override
-	public List<DtoBrand> toDTOList(List<Brand> personelList) {
+	public List<DtoBrand> toDTOList(List<Brand> brandList) {
 		List<DtoBrand> dtoList = new ArrayList<>();
 		
-		for (Brand brand : personelList) {
-			DtoBrand dtoBrand = new DtoBrand();
-			BeanUtils.copyProperties(brand, dtoBrand);
+		for (Brand brand : brandList) {
+			DtoBrand dtoBrand = convertBrandToDto(brand);
 			dtoList.add(dtoBrand);
 		}
 		return dtoList;

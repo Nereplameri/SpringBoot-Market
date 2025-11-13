@@ -16,5 +16,5 @@ public interface IBrandService {
 	public DtoBrand updateBrand(DtoBrandIU inputBrand, Long id);
 	public String deleteBrand(Long id);
 	public Page<Brand> findAllPageable(Pageable pageable);
-	public List<DtoBrand> toDTOList(List<Brand> personelList);
+	public List<DtoBrand> toDTOList(List<Brand> brandList);
 }

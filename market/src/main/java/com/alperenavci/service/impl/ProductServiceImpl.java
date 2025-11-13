@@ -1,10 +1,14 @@
 package com.alperenavci.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.alperenavci.dto.DtoBrand;
@@ -28,6 +32,12 @@ public class ProductServiceImpl implements IProductService{
 	@Autowired
 	private BrandRepository brandRepository;
 	
+	/**
+	 * 
+	 * @param inputProduct
+	 * @return a new Product
+	 */
+	
 	private Product createProduct(DtoProductIU inputProduct) {
 		Product product = new Product();
 		product.setCreateTime(new Date());
@@ -42,6 +52,22 @@ public class ProductServiceImpl implements IProductService{
 		Brand brand = optBrand.get();
 		product.setBrand(brand);
 		return product;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return Product that maches with "id"
+	 */
+	
+	private Product getProductById(Long id) {
+		Optional<Product> optProduct = productRepository.findById(id);
+		
+		if(optProduct.isEmpty()) {
+			throw new BaseException(new ErrorMessage(MessageType.PRODUCT_NOT_FOUND, id.toString()));
+		}
+		
+		return optProduct.get();
 	}
 	
 	/**
@@ -61,11 +87,13 @@ public class ProductServiceImpl implements IProductService{
 		return dtoProduct;
 	}
 	
+	
+	
 	@Override
 	public DtoProduct saveProduct(DtoProductIU inputProduct) {
 		
-		if (productRepository.findByName(inputProduct.getName()).isPresent()) {
-			throw new BaseException(new ErrorMessage(MessageType.PRODUCT_NAME_ALREADY_EXIST, inputProduct.getName()));
+		if (productRepository.findByBarcode(inputProduct.getBarcode()).isPresent()) {
+			throw new BaseException(new ErrorMessage(MessageType.PRODUCT_BARCODE_ALREADY_EXIST, inputProduct.getBarcode()));
 		}
 		
 		Product product = productRepository.save(createProduct(inputProduct));
@@ -78,13 +106,9 @@ public class ProductServiceImpl implements IProductService{
 	@Override
 	public DtoProduct findProductById(Long id) {
 		
-		Optional<Product> optProduct = productRepository.findById(id);
+		Product product = getProductById(id);
 		
-		if(optProduct.isEmpty()) {
-			throw new BaseException(new ErrorMessage(MessageType.PRODUCT_ID_INVALID, id.toString()));
-		}
-		
-		DtoProduct dtoProduct = convertProductToDto(optProduct.get());
+		DtoProduct dtoProduct = convertProductToDto(product);
 		
 		return dtoProduct;
 	}
@@ -103,6 +127,63 @@ public class ProductServiceImpl implements IProductService{
 		
 		
 		return dtoProduct;
+	}
+
+	@Override
+	public Page<Product> findAllPageable(Pageable pageable) {
+		return productRepository.findAllPageable(pageable);
+	}
+
+	@Override
+	public List<DtoProduct> toDtoList(List<Product> productList) {
+		List<DtoProduct> dtoList = new ArrayList<>();
+		
+		for (Product product : productList) {
+			DtoProduct dtoProduct = convertProductToDto(product);
+			dtoList.add(dtoProduct);
+		}
+		
+		return dtoList;
+	}
+	
+	
+	
+	@Override
+	public DtoProduct findByBarcode(String barcode) {
+		Optional<Product> optProduct = productRepository.findByBarcode(barcode);
+		
+		if(optProduct.isEmpty()) {
+			throw new BaseException(new ErrorMessage(MessageType.PRODUCT_NOT_FOUND, barcode));
+		}
+		
+		DtoProduct dtoProduct = convertProductToDto(optProduct.get());
+		return dtoProduct;
+	}
+
+	@Override
+	public DtoProduct updateProduct(DtoProductIU inputProduct, Long id) {
+		Product product = getProductById(id);
+		BeanUtils.copyProperties(inputProduct, product);
+		
+		Product savedProduct = productRepository.save(product);
+		DtoProduct dtoProduct = convertProductToDto(savedProduct);
+		return dtoProduct;
+	}
+	
+	private void productIdCheck(Long id) {
+		Optional<Product> optional = productRepository.findById(id);
+		if (optional.isEmpty()) {
+			throw new BaseException(new ErrorMessage(MessageType.PRODUCT_NOT_FOUND, id.toString()));
+		}
+	}
+	
+	@Override
+	public String deleteProduct(Long id) {
+		productIdCheck(id);
+		
+		productRepository.deleteById(id);
+		
+		return "Succsess";
 	}
 	
 }
