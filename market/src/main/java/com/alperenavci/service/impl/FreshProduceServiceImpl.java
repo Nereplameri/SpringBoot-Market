@@ -1,5 +1,6 @@
 package com.alperenavci.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import com.alperenavci.dto.DtoBrand;
 import com.alperenavci.dto.DtoFreshProduce;
 import com.alperenavci.dto.DtoFreshProduceIU;
+import com.alperenavci.dto.DtoReduceQuentity;
+import com.alperenavci.dto.ReduceQuentityRequest;
 import com.alperenavci.entity.Brand;
 import com.alperenavci.entity.FreshProduce;
 import com.alperenavci.exception.BaseException;
@@ -114,8 +117,12 @@ public class FreshProduceServiceImpl implements IFreshProduceService{
 	}
 
 	@Override
-	public Page<FreshProduce> findAllPageable(Pageable pageable) {
-		return freshProduceRepository.findAllPageable(pageable);
+	public Page<FreshProduce> findAllPageable(Pageable pageable, Long brandId) {
+		
+		if (brandId == null) {
+			return freshProduceRepository.findAllPageable(pageable);
+		}
+		return freshProduceRepository.findAllByBrand(brandId, pageable);
 	}
 
 	@Override
@@ -149,6 +156,30 @@ public class FreshProduceServiceImpl implements IFreshProduceService{
 		freshProduceRepository.deleteById(id);
 		
 		return "Succsess";
+	}
+
+	@Override
+	public List<DtoFreshProduce> reduceQuentity(DtoReduceQuentity<BigDecimal> request) {
+		List<DtoFreshProduce> dtoList = new ArrayList<>();
+		
+		for (ReduceQuentityRequest<BigDecimal> reduceItem: request.getDecreases()) {
+			
+			FreshProduce freshProduce = getFreshProduceById(reduceItem.getPrimaryId());
+			BigDecimal sumQuentity = freshProduce.getQuantity().subtract(reduceItem.getDecreaseBy());
+			
+			if(sumQuentity.longValue() < 0) {
+				throw new BaseException(new ErrorMessage(MessageType.QUENTITY_IS_NOT_ENOUGH, 
+									freshProduce.getName() + " : " + sumQuentity.toString()));
+			}
+			
+			freshProduce.setQuantity(sumQuentity);
+			freshProduceRepository.save(freshProduce);
+			
+			DtoFreshProduce dtoFreshProduce = convertFreshProduceToDto(freshProduce);
+			dtoList.add(dtoFreshProduce);
+		}
+		
+		return dtoList;
 	}
 
 }

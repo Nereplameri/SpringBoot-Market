@@ -65,8 +65,13 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	
 	@Override
 	public DtoUser register(AuthRequest input) {
+		
+		Optional<User> optUser = userRepository.findByUsername(input.getUsername());
+		if(optUser.isPresent()) {
+			throw new BaseException(new ErrorMessage(MessageType.USERNAME_ALREADY_EXIST, input.getUsername()));
+		}
+		
 		DtoUser dtoUser = new DtoUser();
-		// ToDo kullanıcı ismi daha önceden varsa kaydetmeyi reddet(exception).
 		User savedUser = userRepository.save(createUser(input));
 		
 		BeanUtils.copyProperties(savedUser, dtoUser);

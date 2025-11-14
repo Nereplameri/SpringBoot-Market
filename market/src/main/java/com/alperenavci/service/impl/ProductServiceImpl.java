@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import com.alperenavci.dto.DtoBrand;
 import com.alperenavci.dto.DtoProduct;
 import com.alperenavci.dto.DtoProductIU;
+import com.alperenavci.dto.DtoReduceQuentity;
+import com.alperenavci.dto.ReduceQuentityRequest;
 import com.alperenavci.entity.Brand;
 import com.alperenavci.entity.Product;
 import com.alperenavci.exception.BaseException;
@@ -22,6 +24,8 @@ import com.alperenavci.exception.MessageType;
 import com.alperenavci.repository.BrandRepository;
 import com.alperenavci.repository.ProductRepository;
 import com.alperenavci.service.IProductService;
+
+import jakarta.annotation.Nullable;
 
 @Service
 public class ProductServiceImpl implements IProductService{
@@ -130,8 +134,14 @@ public class ProductServiceImpl implements IProductService{
 	}
 
 	@Override
-	public Page<Product> findAllPageable(Pageable pageable) {
-		return productRepository.findAllPageable(pageable);
+	public Page<Product> findAllPageable(Pageable pageable, @Nullable Long brandId) {
+		// Burada ifli koşul!
+		// return productRepository.findAllByBrand(brandId, pageable);
+		
+		if (brandId == null) {
+			return productRepository.findAllPageable(pageable);
+		}
+		return productRepository.findAllByBrand(brandId, pageable);
 	}
 
 	@Override
@@ -184,6 +194,30 @@ public class ProductServiceImpl implements IProductService{
 		productRepository.deleteById(id);
 		
 		return "Succsess";
+	}
+
+	@Override
+	public List<DtoProduct> reduceQuentity(DtoReduceQuentity<Long> request) {
+		List<DtoProduct> dtoList = new ArrayList<>();
+		
+		for (ReduceQuentityRequest<Long> reduceItem : request.getDecreases()) {
+			
+			Product product = getProductById(reduceItem.getPrimaryId());
+			Long sumQuantity = product.getRemainingProductQuantity() - reduceItem.getDecreaseBy();
+			
+			if(sumQuantity < 0) {
+				throw new BaseException(new ErrorMessage(MessageType.QUENTITY_IS_NOT_ENOUGH, 
+										product.getName() + " : "  + sumQuantity.toString()));
+			}
+			
+			product.setRemainingProductQuantity(sumQuantity);
+			productRepository.save(product);
+			
+			DtoProduct dtoProduct = convertProductToDto(product);
+			dtoList.add(dtoProduct);
+		}
+		
+		return dtoList;
 	}
 	
 }

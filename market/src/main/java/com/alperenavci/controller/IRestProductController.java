@@ -1,7 +1,10 @@
 package com.alperenavci.controller;
 
+import java.util.List;
+
 import com.alperenavci.dto.DtoProduct;
 import com.alperenavci.dto.DtoProductIU;
+import com.alperenavci.dto.DtoReduceQuentity;
 import com.alperenavci.utils.RestPageableEntity;
 import com.alperenavci.utils.RestPageableRequest;
 
@@ -13,4 +16,6 @@ public interface IRestProductController {
 	public RootEntity<DtoProduct> findByBarcode(String barcode);
 	public RootEntity<DtoProduct> updateProduct(DtoProductIU inputProduct, Long id);
 	public RootEntity<String> deleteProduct(Long id);
+	public RootEntity<RestPageableEntity<DtoProduct>> findAllByBrand(Long brandId, RestPageableRequest pageable);
+	public RootEntity<List<DtoProduct>> reduceQuentity(DtoReduceQuentity<Long> request);
 }

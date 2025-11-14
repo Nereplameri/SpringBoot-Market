@@ -10,6 +10,8 @@ public enum MessageType {
 	USERNAME_OR_PASSWORD_INVALID("1007", "Kullanıcı adı veya şifre hatalı"),
 	REFRESH_TOKEN_NOT_FOUND("1008", "Refresh Token Bulunamadı."),
 	REFRESH_TOKEN_IS_EXPIRED("1009", "Refresh Tokenin süresi bitmiştir."),
+	USERNAME_ALREADY_EXIST("1010", "Kullanıcı adı zaten mevcut."),
+	BARCODE_FETCHER_IS_OCCURED("1011", "Barkod tamamlayıcı cevap veremiyor."),
 	BRAND_NOT_FOUND("4010", "Firma bulunamadı."),
 	BRAND_ID_INVALID("4011", "Firma numarası geçersiz"),
 	BRAND_NAME_ALREADY_EXIST("4012", "Firma ismi daha önce oluşturulmuş."),
@@ -17,6 +19,7 @@ public enum MessageType {
 	PRODUCT_ID_INVALID("4014", "Ürün ID 'si geçersiz."),
 	PRODUCT_NOT_FOUND("4015", "Ürün bulunamadı"),
 	FRESH_PRODUCE_NOT_FOUND("4016", "Manav ürün id 'si geçersiz"),
+	QUENTITY_IS_NOT_ENOUGH("4017", "Ürün adedi 0 'dan az kalamaz."),
 	GENERAL_EXCEPTION("9999", "Genel bir hata oluştu");
 	
 	

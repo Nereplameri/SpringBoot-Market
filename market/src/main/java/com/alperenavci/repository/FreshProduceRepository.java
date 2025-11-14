@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.alperenavci.entity.FreshProduce;
+import com.alperenavci.entity.Product;
 
 @Repository
 public interface FreshProduceRepository extends JpaRepository<FreshProduce, Long>{
@@ -20,4 +21,6 @@ public interface FreshProduceRepository extends JpaRepository<FreshProduce, Long
 	@Query(value = "from FreshProduce")
 	Page<FreshProduce> findAllPageable(Pageable pageable);
 	
+	@Query("SELECT p FROM FreshProduce p WHERE p.brand.id = :brandId")
+    Page<FreshProduce> findAllByBrand(@Param("brandId") Long brandId, Pageable pageable);
 }

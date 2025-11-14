@@ -1,7 +1,10 @@
 package com.alperenavci.controller.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +20,7 @@ import com.alperenavci.controller.RestBaseController;
 import com.alperenavci.controller.RootEntity;
 import com.alperenavci.dto.DtoProduct;
 import com.alperenavci.dto.DtoProductIU;
+import com.alperenavci.dto.DtoReduceQuentity;
 import com.alperenavci.entity.Product;
 import com.alperenavci.service.IProductService;
 import com.alperenavci.utils.RestPageableEntity;
@@ -53,7 +57,7 @@ public class RestProductControllerImpl extends RestBaseController implements IRe
 	@Override
 	public RootEntity<RestPageableEntity<DtoProduct>> findAllPageable(@ModelAttribute RestPageableRequest pageable) {
 		
-		Page<Product> page = productService.findAllPageable(toPageable(pageable));
+		Page<Product> page = productService.findAllPageable(toPageable(pageable), pageable.getBrandId());
 		RestPageableEntity<DtoProduct> pageableResponse = toPageableResponse(page, productService.toDtoList(page.getContent()));
 		return ok(pageableResponse);
 	}
@@ -74,6 +78,20 @@ public class RestProductControllerImpl extends RestBaseController implements IRe
 	@Override
 	public RootEntity<String> deleteProduct(@PathVariable(name = "id") Long id) {
 		return ok(productService.deleteProduct(id));
+	}
+
+	@GetMapping("/listByBrand/product")
+	@Override
+	public RootEntity<RestPageableEntity<DtoProduct>> findAllByBrand(Long brandId,@ModelAttribute RestPageableRequest pageable) {
+		
+		//Page<Product> page = productService.findAllByBrand(brandId, pageable)
+		return null;
+	}
+	
+	@PostMapping("/reduceQuentity")
+	@Override
+	public RootEntity<List<DtoProduct>> reduceQuentity(@RequestBody DtoReduceQuentity<Long> request) {
+		return ok(productService.reduceQuentity(request));
 	}
 	
 	

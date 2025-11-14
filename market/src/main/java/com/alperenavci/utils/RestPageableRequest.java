@@ -8,4 +8,5 @@ public class RestPageableRequest {
 	private int pageSize;
 	private String columnName;
 	private boolean asc;
+	private Long brandId;
 }
