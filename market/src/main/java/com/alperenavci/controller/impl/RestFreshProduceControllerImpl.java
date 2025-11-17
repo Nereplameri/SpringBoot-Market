@@ -26,6 +26,8 @@ import com.alperenavci.service.IFreshProduceService;
 import com.alperenavci.utils.RestPageableEntity;
 import com.alperenavci.utils.RestPageableRequest;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/rest/api/freshProduce")
 public class RestFreshProduceControllerImpl extends RestBaseController implements IRestFreshProduceController{
@@ -35,7 +37,7 @@ public class RestFreshProduceControllerImpl extends RestBaseController implement
 	
 	@PostMapping("/saveFreshProduce")
 	@Override
-	public RootEntity<DtoFreshProduce> saveFreshProduce(@RequestBody DtoFreshProduceIU inputProduce) {
+	public RootEntity<DtoFreshProduce> saveFreshProduce(@Valid @RequestBody DtoFreshProduceIU inputProduce) {
 		return ok(freshProduceService.saveFreshProduce(inputProduce));
 	}
 
@@ -61,7 +63,7 @@ public class RestFreshProduceControllerImpl extends RestBaseController implement
 	
 	@PutMapping("/updateFreshProduce/{id}")
 	@Override
-	public RootEntity<DtoFreshProduce> updateFreshProduce(@RequestBody DtoFreshProduceIU inputProduce,@PathVariable Long id) {
+	public RootEntity<DtoFreshProduce> updateFreshProduce(@Valid @RequestBody DtoFreshProduceIU inputProduce,@PathVariable Long id) {
 		return ok(freshProduceService.updateFreshProduce(inputProduce, id));
 	}
 

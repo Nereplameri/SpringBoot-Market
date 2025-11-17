@@ -37,7 +37,7 @@ public class RestProductControllerImpl extends RestBaseController implements IRe
 	
 	@PostMapping("/addProduct")
 	@Override
-	public RootEntity<DtoProduct> saveProduct(@RequestBody DtoProductIU inputProduct) {
+	public RootEntity<DtoProduct> saveProduct(@Valid @RequestBody DtoProductIU inputProduct) {
 		return ok(productService.saveProduct(inputProduct));
 	}
 
@@ -70,7 +70,7 @@ public class RestProductControllerImpl extends RestBaseController implements IRe
 	
 	@PutMapping("/updateProduct/{id}")
 	@Override
-	public RootEntity<DtoProduct> updateProduct(@RequestBody DtoProductIU inputProduct,@PathVariable(name = "id") Long id) {
+	public RootEntity<DtoProduct> updateProduct(@Valid @RequestBody DtoProductIU inputProduct,@PathVariable(name = "id") Long id) {
 		return ok(productService.updateProduct(inputProduct, id));
 	}
 
@@ -80,13 +80,6 @@ public class RestProductControllerImpl extends RestBaseController implements IRe
 		return ok(productService.deleteProduct(id));
 	}
 
-	@GetMapping("/listByBrand/product")
-	@Override
-	public RootEntity<RestPageableEntity<DtoProduct>> findAllByBrand(Long brandId,@ModelAttribute RestPageableRequest pageable) {
-		
-		//Page<Product> page = productService.findAllByBrand(brandId, pageable)
-		return null;
-	}
 	
 	@PostMapping("/reduceQuentity")
 	@Override

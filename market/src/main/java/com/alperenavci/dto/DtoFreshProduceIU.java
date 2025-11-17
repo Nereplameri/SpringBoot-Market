@@ -2,29 +2,30 @@ package com.alperenavci.dto;
 
 import java.math.BigDecimal;
 
+import com.alperenavci.annotation.EnumNamePattern;
 import com.alperenavci.enums.UnitType;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class DtoFreshProduceIU {
 	
-	@NotEmpty
+	@NotEmpty(message = "İsim boş bırakılamaz")
 	private String name;
 	
-	@NotEmpty
+	@NotNull(message = "Manav adeti boş bırakılamaz")
 	private BigDecimal quantity;
 	
-	@NotEmpty
+	@EnumNamePattern(regexp = "KG|PIECE")
 	private UnitType unitType;
 	
-	@NotEmpty
 	private Long unitPurchasePrice;
 	
-	@NotEmpty
+	@NotNull(message = "Manav fiyatı boş bırakılamaz")
 	private Long unitSellPrice;
 	
-	@NotEmpty
+	@NotNull(message = "Manav firması boş bırakılamaz")
 	private Long brand;
 }

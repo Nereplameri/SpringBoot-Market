@@ -1,5 +1,6 @@
 package com.alperenavci.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -21,10 +22,10 @@ public class Product extends BaseEntity{
 	private String name;
 	
 	@Column(name = "purchase_price")
-	private Long purchasePrice;
+	private BigDecimal purchasePrice;
 	
 	@Column(name = "sell_price")
-	private Long sellPrice;
+	private BigDecimal sellPrice;
 	
 	@Column(name = "is_presented")
 	private boolean isPresented;

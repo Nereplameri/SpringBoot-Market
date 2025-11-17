@@ -16,6 +16,5 @@ public interface IRestProductController {
 	public RootEntity<DtoProduct> findByBarcode(String barcode);
 	public RootEntity<DtoProduct> updateProduct(DtoProductIU inputProduct, Long id);
 	public RootEntity<String> deleteProduct(Long id);
-	public RootEntity<RestPageableEntity<DtoProduct>> findAllByBrand(Long brandId, RestPageableRequest pageable);
 	public RootEntity<List<DtoProduct>> reduceQuentity(DtoReduceQuentity<Long> request);
 }

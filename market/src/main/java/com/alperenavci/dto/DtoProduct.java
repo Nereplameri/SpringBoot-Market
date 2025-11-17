@@ -1,5 +1,6 @@
 package com.alperenavci.dto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -13,9 +14,9 @@ public class DtoProduct extends DtoBase{
 	
 	private String name;
 	
-	private Long purchasePrice;
+	private BigDecimal purchasePrice;
 	
-	private Long sellPrice;
+	private BigDecimal sellPrice;
 	
 	private boolean isPresented;
 	

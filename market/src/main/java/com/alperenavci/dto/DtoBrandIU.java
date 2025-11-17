@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DtoBrandIU {
 	
-	@NotEmpty
+	@NotEmpty(message = "İsim boş olamaz")
 	private String name;
 
 	private String phoneNumber;
 
-	@Email
+	@Email(message = "Geçerli bir E-mail giriniz")
 	private String email;
 }
