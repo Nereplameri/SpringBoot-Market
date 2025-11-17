@@ -19,9 +19,9 @@ public class DtoFreshProduce extends DtoBase{
 	
 	private UnitType unitType;
 	
-	private Long unitPurchasePrice;
+	private BigDecimal unitPurchasePrice;
 	
-	private Long unitSellPrice;
+	private BigDecimal unitSellPrice;
 	
 	private DtoBrand brand;
 	

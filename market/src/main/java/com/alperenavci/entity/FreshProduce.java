@@ -32,10 +32,10 @@ public class FreshProduce extends BaseEntity{
 	private UnitType unitType;
 	
 	@Column(name = "unit_purchase_price")
-	private Long unitPurchasePrice;
+	private BigDecimal unitPurchasePrice;
 	
 	@Column(name = "unit_sell_price")
-	private Long unitSellPrice;
+	private BigDecimal unitSellPrice;
 	
 	@ManyToOne
 	private Brand brand;

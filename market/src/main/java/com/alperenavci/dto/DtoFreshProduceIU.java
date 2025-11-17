@@ -21,10 +21,10 @@ public class DtoFreshProduceIU {
 	@EnumNamePattern(regexp = "KG|PIECE")
 	private UnitType unitType;
 	
-	private Long unitPurchasePrice;
+	private BigDecimal unitPurchasePrice;
 	
 	@NotNull(message = "Manav fiyatı boş bırakılamaz")
-	private Long unitSellPrice;
+	private BigDecimal unitSellPrice;
 	
 	@NotNull(message = "Manav firması boş bırakılamaz")
 	private Long brand;
