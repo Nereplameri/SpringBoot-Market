@@ -141,6 +141,19 @@ public class FreshProduceServiceImpl implements IFreshProduceService{
 	public DtoFreshProduce updateFreshProduce(DtoFreshProduceIU inputProduce, Long id) {
 		FreshProduce freshProduce = getFreshProduceById(id);
 		BeanUtils.copyProperties(inputProduce, freshProduce);
+		
+		Optional<Brand> optional = brandRepository.findById(inputProduce.getBrand());
+		
+		
+		Brand newBrand;
+		if (optional.isPresent()) {
+			newBrand = optional.get();
+		} else {
+			throw new BaseException(new ErrorMessage(MessageType.BRAND_ID_INVALID, inputProduce.getBrand().toString()));
+		}
+		
+		freshProduce.setBrand(newBrand);
+		
 		freshProduceRepository.save(freshProduce);
 		DtoFreshProduce dtoFreshProduce = convertFreshProduceToDto(freshProduce);
 		return dtoFreshProduce;

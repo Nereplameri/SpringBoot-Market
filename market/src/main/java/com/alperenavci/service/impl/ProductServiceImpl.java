@@ -174,6 +174,19 @@ public class ProductServiceImpl implements IProductService{
 	public DtoProduct updateProduct(DtoProductIU inputProduct, Long id) {
 		Product product = getProductById(id);
 		BeanUtils.copyProperties(inputProduct, product);
+		// Burada, firmanın kendisini de değiştireceğiz.
+		
+		Optional<Brand> optional = brandRepository.findById(inputProduct.getBrand());
+		
+		Brand newBrand;
+		if (optional.isPresent()) {
+			newBrand = optional.get();
+		} else {
+			throw new BaseException(new ErrorMessage(MessageType.BRAND_ID_INVALID, inputProduct.getBrand().toString()));
+		}
+		
+		product.setBrand(newBrand);
+		
 		
 		Product savedProduct = productRepository.save(product);
 		DtoProduct dtoProduct = convertProductToDto(savedProduct);

@@ -35,7 +35,7 @@ public class SecuirtyConfig {
 		http.csrf().disable()
 		.authorizeHttpRequests(request ->
 		request.requestMatchers(REGISTER, AUTHENTICATE, REFRESH_TOKEN, "/rest/api/product/**").permitAll()
-		.anyRequest().authenticated())
+		.anyRequest().permitAll())
 		.exceptionHandling().authenticationEntryPoint(authEntryPoint).and()
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.authenticationProvider(authenticationProvider)
